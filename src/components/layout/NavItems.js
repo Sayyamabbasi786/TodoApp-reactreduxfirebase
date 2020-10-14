@@ -1,23 +1,48 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {signOut} from '../../store/Actions/authActions';
+import {connect} from 'react-redux'
 
 
-function NavItems() {
+function NavItems({ActionSignOut,authUid}) {
+
+  const handleSignOut = ()=>{
+    ActionSignOut()
+  }
 
   return (
     <React.Fragment>
-        <Link to ="/signin" className="nav-link text-white">
-            Sign Out
+      {authUid ? (
+        <Link
+          to="/signin"
+          className="nav-link text-white"
+          onClick={handleSignOut}>
+          Sign Out
         </Link>
-        <Link to ="/signin" className="nav-link text-white">
+      ) : (
+        <React.Fragment>
+          <Link to="/signin" className="nav-link text-white">
             Sign In
-        </Link>
-        <Link to ="/signup" className="nav-link text-white">
+          </Link>
+          <Link to="/signup" className="nav-link text-white">
             Sign Up
-        </Link>
+          </Link>
+        </React.Fragment>
+      )}
     </React.Fragment>
-   
   );
 }
 
-export default NavItems;
+const mapStateToProps = (state)=>{
+  return{
+    authUid : state.firebase.auth.uid
+  }
+}
+
+const mapDispatchProps = (dispatch)=>{
+  return{
+    ActionSignOut:()=>{dispatch(signOut())}
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchProps)(NavItems);

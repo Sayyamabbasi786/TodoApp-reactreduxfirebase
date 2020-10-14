@@ -7,7 +7,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {createStore,applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux'
-import {getFirebase,ReactReduxFirebaseProvider,createFirebaseInstance} from 'react-redux-firebase';
+import {getFirebase,ReactReduxFirebaseProvider} from 'react-redux-firebase';
+import {createFirestoreInstance} from 'redux-firestore';
 import firebase from './Config/firebaseConfig';
 import rootReducer from './store/Reducers/rootReducer'
 
@@ -20,19 +21,17 @@ const rrfProps = {
   firebase,
   config:{},
   dispatch:store.dispatch,
-  createFirebaseInstance
+  createFirestoreInstance
 }
 
 
 ReactDOM.render(
-  <React.StrictMode>
+  
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <App />
       </ReactReduxFirebaseProvider>
-    </Provider>
-    
-  </React.StrictMode>,
+    </Provider>,
   document.getElementById('root')
 );
 

@@ -5,7 +5,7 @@ import {compose} from 'redux';
 import {firestoreConnect} from 'react-redux-firebase';
 
 
-const Tasks=()=> {
+const Tasks=(props)=> {
   return (
     <React.Fragment>
     <table className="table table-dark mt-3">
@@ -18,7 +18,12 @@ const Tasks=()=> {
       </tr>
     </thead>
     <tbody>
-      <Task />
+    {props.tasks&&props.tasks.map(task=>{
+      return(
+        <Task key={task.id} task={task}/>
+      )
+    })}
+      
     </tbody>
   </table>
     </React.Fragment>
@@ -26,17 +31,20 @@ const Tasks=()=> {
 }
 
 const mapStateToProps=(state)=>{
+  
+  
   console.log("state",state)
-  const tasks = state.firestore.ordered.tasks;
+  const fireStoreTasks = state.firestore.ordered.tasks;
+  
   return{
-    tasks:tasks
+    tasks:fireStoreTasks
   }
 }
 
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect(ownProps=>[
+  firestoreConnect([
     {
       collection:"tasks",
       orderBy:['createdAt','desc']

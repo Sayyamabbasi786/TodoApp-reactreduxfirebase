@@ -1,19 +1,31 @@
 import React,{useState} from 'react';
+import {signIn} from '../../store/Actions/authActions';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 
-function SignIn() {
+function SignIn({signInAction,authUid}) {
 
 
   const [email,setEmail]=useState("")
-  const [pass,setPass]=useState("")
+  const [password,setPassword]=useState("")
+
+  
 
   const handleSubmit = (e)=>{
       e.preventDefault()
-      console.log("email",email)
-      console.log("pass",pass)
+      signInAction({
+        email,
+        password
+      })
   }
 
-
+  if(authUid)
+  {
+    return(
+      <Redirect to="/" />
+    )
+  }
   return (
     
       <form className="container mt-3" autoComplete="off" 
@@ -34,7 +46,7 @@ function SignIn() {
             type="password"
             className="form-control"
             id="password"
-            onChange={(e)=>{setPass(e.target.value)}}
+            onChange={(e)=>{setPassword(e.target.value)}}
           />
         </div>
         <button type="submit" className="btn btn-primary">
@@ -45,4 +57,20 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+const mapDispatchToProps=(dispatch)=>{
+
+  return{
+    signInAction : (cred)=>dispatch(signIn(cred))
+  }
+}
+
+const mapStateToProps=(state)=>{
+  
+  return{
+    authUid:state.firebase.auth.uid
+  }
+
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignIn);

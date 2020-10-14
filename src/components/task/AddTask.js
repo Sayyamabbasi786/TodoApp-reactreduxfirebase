@@ -6,19 +6,27 @@ function AddTask(props) {
 
 
   const [task,setTask]=useState("")
-  console.log("task Redex",props.task)
+  const [checked,setChecked]=useState(false)
+  
 
   const handleSubmit = (e)=>{
       e.preventDefault();
-      props.addTask(task)
+      props.addTask({
+        task,
+        checked
+      })
       
-      
+      //we will reset form using vanilla JS
+      document.getElementById("clearTaskForm").reset();
   }
 
 
   return (
     
-      <form className="container mt-3" autoComplete="off" 
+      <form 
+        id="clearTaskForm"
+        className="container mt-3 " 
+        autoComplete="off" 
         onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="task">Add Task</label>
