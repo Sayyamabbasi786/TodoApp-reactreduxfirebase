@@ -3,7 +3,16 @@ import {timestamp} from '../../Config/firebaseConfig';
 export const addTask = (task)=>{
 
     return (dispatch,getState,{getFirebase})=>{
+
+        //if you want to use some state value in here then 
+        //use getState
+
         const firestore = getFirebase().firestore();
+
+        // const authorId = getState().firesbase.auth.uid;
+        // console.log("get state author id",authorId)
+        // getState is undefined here 
+
         firestore
         .collection("tasks")
         .add({
