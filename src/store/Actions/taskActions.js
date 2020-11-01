@@ -9,7 +9,7 @@ export const addTask = (task)=>{
 
         const firestore = getFirebase().firestore();
 
-        // const authorId = getState().firesbase.auth.uid;
+        const authorId = getState().firebase.auth.uid;
         // console.log("get state author id",authorId)
         // getState is undefined here 
 
@@ -17,6 +17,7 @@ export const addTask = (task)=>{
         .collection("tasks")
         .add({
             ...task,
+            authorId,
             createdAt:timestamp()
         }).then(()=>{
             dispatch({

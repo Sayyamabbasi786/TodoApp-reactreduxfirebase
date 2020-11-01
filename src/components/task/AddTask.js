@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import {addTask} from '../../store/Actions/taskActions';
 import {connect} from 'react-redux'
 
-function AddTask({authorId,addTask}) {
+function AddTask({addTask}) {
 
 
   const [task,setTask]=useState("")
@@ -13,8 +13,7 @@ function AddTask({authorId,addTask}) {
       e.preventDefault();
       addTask({
         task,
-        checked,
-        authorId
+        checked
       })
       
       //we will reset form using vanilla JS
@@ -54,8 +53,7 @@ const mapDispatchToProps = (dispatch)=>{
 
 const mapStateToProps = (state)=>{
   return{
-    task:state.task.task,
-    authorId:state.firebase.auth.uid
+    task:state.task.task
   }
 }
 
